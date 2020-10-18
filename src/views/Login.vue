@@ -2,7 +2,11 @@
   <div>
     <el-container>
       <el-header>
-        <img class="mlogo" src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png" alt />
+        <img
+          class="mlogo"
+          src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png"
+          alt
+        />
       </el-header>
       <el-main>
         <el-form
@@ -19,7 +23,9 @@
             <el-input type="password" v-model="ruleForm.password"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')"
+              >立即创建</el-button
+            >
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -35,39 +41,47 @@ export default {
     return {
       ruleForm: {
         username: "markerhub",
-        password: "123456"
+        password: "123456",
       },
       rules: {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 15, message: "长度在 3 到 15 个字符", trigger: "blur" }
+          {
+            min: 3,
+            max: 15,
+            message: "长度在 3 到 15 个字符",
+            trigger: "blur",
+          },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 5, max: 16, message: "长度在 7 到 16 个字符", trigger: "blur" }
-        ]
-      }
+          {
+            min: 5,
+            max: 16,
+            message: "长度在 7 到 16 个字符",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           const _this = this;
-          alert("submit!");
-          this.$axios
-            .post("http://localhost:8081/login", this.ruleForm)
-            .then(res => {
-              const jwt = res.headers["authorization"];
-              const userInfo = res.data.data;
-              console.log(res.headers);
-              console.log(res);
-              // 把数据共享出去
-              _this.$store.commit("SET_TOKEN", jwt);
-              _this.$store.commit("SET_USERINFO", userInfo);
-              console.log(_this.$store.getters.getUser);
-              _this.$router.push("/blogList");
-            });
+          this.$axios.post("/login", this.ruleForm).then((res) => {
+            const jwt = res.headers["authorization"];
+            const userInfo = res.data.data;
+            console.log(res.headers);
+            console.log(res);
+            // 把数据共享出去
+            _this.$store.commit("SET_TOKEN", jwt);
+            _this.$store.commit("SET_USERINFO", userInfo);
+            // 获取
+            console.log(_this.$store.getters.getUser);
+            _this.$router.push("/blogList");
+          });
         } else {
           console.log("error submit!!");
           return false;
@@ -76,8 +90,8 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
-  }
+    },
+  },
 };
 </script>
 
