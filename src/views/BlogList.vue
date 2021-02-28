@@ -26,7 +26,10 @@
         class="mpage"
         background
         layout="prev, pager, next"
-        :total="1000"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :total="total"
+        @current-change="page"
       >
       </el-pagination>
     </div>
@@ -55,9 +58,9 @@ export default {
         .then((res) => {
           console.log(res);
           _this.blogList = res.data.data.records;
-          _this.currentPage = res.data.data.currentPage;
+          _this.currentPage = res.data.data.current;
           _this.total = res.data.data.total;
-          _this.pageSize = res.data.data.pageSize;
+          _this.pageSize = res.data.data.size;
         });
     },
   },
